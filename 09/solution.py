@@ -88,8 +88,8 @@ def partTwo(problem):
             if problem[r][c] != "9" and (r, c) not in visited:
                 visited.add((r, c));
                 exploreNode(r, c, visited);
-                newSize = len(visited) - oldSize;
-                sizes.append(newSize);
+                newSize = len(visited);
+                sizes.append(newSize - oldSize);
 
     sizes.sort(reverse=True);
     product = sizes[0] * sizes[1] * sizes[2];
