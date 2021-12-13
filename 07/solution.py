@@ -44,9 +44,19 @@ def readCustom():
 
 def partOne(problem):
 
+    def cost(x, y):
+        return abs(x - y);
+
     data, start, stop = problem;
 
-    minCost = min([sum(abs(x - pos) for x in data) for pos in range(start, stop + 1)]);
+    minCost = sum(cost(x, start) for x in data);
+
+    for pos in range(start+1, stop+1):
+        trialCost = sum(cost(x, pos) for x in data);
+        if (trialCost < minCost):
+            minCost = trialCost;
+        else:
+            break;
 
     print("Part 1: {:d}".format(minCost));
 
@@ -58,40 +68,16 @@ def partTwo(problem):
 
     data, start, stop = problem;
 
-    minCost = min(sum(cost(x, pos) for x in data) for pos in range(start, stop + 1));
+    minCost = sum(cost(x, start) for x in data);
+
+    for pos in range(start+1, stop+1):
+        trialCost = sum(cost(x, pos) for x in data);
+        if (trialCost < minCost):
+            minCost = trialCost;
+        else:
+            break;
 
     print("Part 2: {:d}".format(minCost));
-
-def partTwoCleaned(problem):
-
-    data, start, stop = problem;
-
-    def cost(x, y):
-        diff = abs(x - y);
-        return diff * (diff + 1) // 2;
-
-    def totalCost(pos, data):
-        return sum(cost(x, data[pos]) for x in data);
-
-    data.sort();
-
-    index = len(data) // 2;
-
-    low = 0;
-    high = len(data) - 1;
-
-    mid = (high - low) // 2;
-
-    if (totalCost(low, data) <= totalCost(mid, data)):
-        high = mid;
-    elif (totalCost(mid, data) <= totalCost(high, data)):
-        low = mid
-
-    pos = data[index]
-
-
-
-    print(totalCost(pos, data));
 
 
 # %% MAIN CALLS
@@ -103,17 +89,6 @@ if __name__ == "__main__":
 
     partOne(problem);
     partTwo(problem);
-    partTwoCleaned(problem);
-
-
-
-
-
-
-
-
-
-
 
 
 
