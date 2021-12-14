@@ -1,5 +1,4 @@
 
-readTest
-runAll
+readTest.py
 __pycache__
-gcloudAuth
+gcloudAuth.json
