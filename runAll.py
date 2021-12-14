@@ -8,7 +8,7 @@ def execute(cmd):
         yield stdout_line ;
     popen.stdout.close();
 
-lastDayCompleted = 13;
+lastDayCompleted = 14;
 
 totalTime = 0;
 for n in range(1, lastDayCompleted + 1):

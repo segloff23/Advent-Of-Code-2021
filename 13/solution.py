@@ -1,38 +1,7 @@
-# %% IMPORTS
+
 import re;
-# import math;
 
-#import numpy as np;
-# import matplotlib.pyplot as plt;
-
-# from collections import deque;
-# from itertools import permutations;
-
-# %% STANDARD READ METHODS
-def readIntList():
-    with open("problem.txt") as problemFile:
-        intList = [int(d) for d in problemFile.readlines()];
-    return intList;
-
-def readIntArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        intArray = [[int(d) for d in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return intArray;
-
-def readWordList():
-    with open("problem.txt") as problemFile:
-        wordList = [w.strip() for w in problemFile.readlines()];
-    return wordList;
-
-def readWordArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        wordArray = [[w.strip() for w in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return wordArray;
-
-# %% CUSTOM SOLUTION
-def readCustom():
+def read():
 
     with open("problem.txt") as problemFile:
         nums, words = problemFile.read().split("\n\n");
@@ -88,51 +57,44 @@ def partOne(problem):
     total = sum(x != 0 for row in paper for x in row);
 
     print("Part 1: {:d}".format(total));
+    
+    return paper;
 
-def partTwo(problem):
+def partTwo(problem, paper):
 
-    coords, folds = problem;
+    def padRow(row, interval):
+        newRow = [];
+        for n in range(len(row)):
+            if n % interval == 0:
+                newRow.extend([0]*3);
+            newRow.append(row[n]);
 
-    high = max(x for row in coords for x in row);
-    N = high + 1;
+        return newRow;
 
-    paper = [[0]*N for _ in range(N)];
-    for x, y in coords:
-        paper[y][x] += 1;
+    _, folds = problem;
 
-    for f in folds:
+    for f in folds[1:]:
         paper = applyFold(paper, f);
 
-    message = [""]*len(paper);
-    for n, row in enumerate(paper):
-        for x in row:
-            message[n] += "#" if x != 0 else " ";
-
-
-
-    print("Part 2: ");
-    for row in message:
-        print(" "*8 + row);
+    if not FAST:
+        from TextConverter import readArrayAsText;
+        paperImg = [[255 if x == 0 else 1 for x in row] for row in paper];
+        text = readArrayAsText(paperImg);
+        print("Part 2: {:s}".format(text));
+    else:
+        paperImg = ["".join(["@" if x > 0 else " " for x in row]) for row in paper];
+        print("Part 2: ");
+        for row in paperImg:
+            print(row);
 
 # %% MAIN CALLS
 if __name__ == "__main__":
 
     print("Solving Day 13, AoC 2021");
 
-    problem = readCustom();
+    FAST = True;
 
-    partOne(problem);
-    partTwo(problem);
+    problem = read();
 
-
-
-
-
-
-
-
-
-
-
-
-
+    foldedPaper = partOne(problem);
+    partTwo(problem, foldedPaper);

@@ -1,45 +1,10 @@
-# %% IMPORTS
-# import re;
-# import math;
-
-# import numpy as np;
-# import matplotlib.pyplot as plt;
-
-# from collections import deque;
-# from itertools import permutations;
-
-# %% STANDARD READ METHODS
-def readIntList():
-    with open("problem.txt") as problemFile:
-        intList = [int(d) for d in problemFile.readlines()];
-    return intList;
-
-def readIntArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        intArray = [[int(d) for d in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return intArray;
 
 def readWordList():
+
     with open("problem.txt") as problemFile:
         wordList = [w.strip() for w in problemFile.readlines()];
+
     return wordList;
-
-def readWordArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        wordArray = [[w.strip() for w in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return wordArray;
-
-# %% CUSTOM SOLUTION
-def readCustom():
-
-    with open("problem.txt") as problemFile:
-        problem = [];
-        for line in problemFile.readlines():
-            pass;
-
-    return problem;
 
 def partOne(problem):
 
@@ -50,12 +15,9 @@ def partOne(problem):
     counts = [[num[b] for num in problem].count("1") for b in range(B)];
 
     gammaBin = "".join(["1" if c > N2 else "0" for c in counts]);
-    gamma = int(gammaBin, 2);
-
     epsBin = "".join(["0" if c > N2 else "1" for c in counts]);
-    eps = int(epsBin, 2);
 
-    product = gamma * eps;
+    product = int(gammaBin, 2) * int(epsBin, 2);
 
     print("Part 1: {:d}".format(product));
 
@@ -87,10 +49,7 @@ def partTwo(problem):
     CO2keep = lambda ones, zeroes: "1" if ones < zeroes else "0";
     CO2rating = calcRating(problem, CO2keep);
 
-    O2num = int("".join(O2rating), 2);
-    CO2num = int("".join(CO2rating), 2);
-
-    product = O2num * CO2num;
+    product = int("".join(O2rating), 2) * int("".join(CO2rating), 2);
 
     print("Part 2: {:d}".format(product));
 
@@ -103,16 +62,3 @@ if __name__ == "__main__":
 
     partOne(problem);
     partTwo(problem);
-
-
-
-
-
-
-
-
-
-
-
-
-

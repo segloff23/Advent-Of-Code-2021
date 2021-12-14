@@ -1,38 +1,5 @@
-# %% IMPORTS
-# import re;
-# import math;
 
-# import numpy as np;
-# import matplotlib.pyplot as plt;
-
-# from collections import deque;
-# from itertools import permutations;
-
-# %% STANDARD READ METHODS
-def readIntList():
-    with open("problem.txt") as problemFile:
-        intList = [int(d) for d in problemFile.readlines()];
-    return intList;
-
-def readIntArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        intArray = [[int(d) for d in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return intArray;
-
-def readWordList():
-    with open("problem.txt") as problemFile:
-        wordList = [w.strip() for w in problemFile.readlines()];
-    return wordList;
-
-def readWordArray(delimiter=" "):
-    with open("problem.txt") as problemFile:
-        wordArray = [[w.strip() for w in line.strip().split(delimiter)]
-                        for line in problemFile];
-    return wordArray;
-
-# %% CUSTOM SOLUTION
-def readCustom():
+def read():
 
     with open("problem.txt") as problemFile:
         problem = {};
@@ -52,7 +19,7 @@ def readCustom():
 def partOne(problem):
 
     def countPaths(visited, cameFrom, goal):
-        
+
         if (cameFrom == goal):
             return 1;
         else:
@@ -76,7 +43,7 @@ def partOne(problem):
 def partTwo(problem):
 
     def countPaths(visited, revisited, cameFrom, goal):
-        
+
         if (cameFrom == goal):
             return 1;
         else:
@@ -104,20 +71,7 @@ if __name__ == "__main__":
 
     print("Solving Day 12, AoC 2021");
 
-    problem = readCustom();
+    problem = read();
 
     partOne(problem);
     partTwo(problem);
-
-
-
-
-
-
-
-
-
-
-
-
-
