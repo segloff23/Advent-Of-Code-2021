@@ -1,78 +1,17 @@
-class GeneralHeap(list):
-    # Heap contains arbitrary objects
-    #   isEqual(a, b) is used for searching the heap for a given object
-    #   isLess(a, b) is used for structuring the heap
+import heapq;
 
-    def __init__(self, isEqual, isLess):
-         super().__init__();
-         self.isEqual = isEqual;
-         self.isLess = isLess;
+class Graph:
 
-    def insert(self, node):
-        self.append(node);
-        self.upHeap(len(self)-1);
+    def __init__(self):
+        pass;
 
-    def decreaseKey(self, node, updater):
+    def getNeighbors(self, node):
+        return [];
 
-        for k in range(len(self)):
-            if (self.isEqual(node, self[k])):
-                updater();
-                self.upHeap(k);
-                return;
+    def getDistance(self, current, new):
+        return 0;
 
-        raise KeyError;
-
-    def increaseKey(self, node, updater):
-
-        for k in range(len(self)):
-            if (self.isEqual(node, self[k])):
-                updater();
-                self.downHeap(k);
-                return;
-
-        raise KeyError;
-
-    def extractMin(self):
-        
-        if (len(self) > 1):
-            node = self[0];
-            self[0] = self.pop();
-            self.downHeap(0);
-        else:
-            node = self.pop();
-
-        return node;
-
-    def upHeap(self, child):
-
-        parent = (child + 1) // 2 - 1;
-        while (parent >= 0 and self.isLess(self[child], self[parent])):
-            self[parent], self[child] = self[child], self[parent];
-            child = parent;
-            parent = (child + 1) // 2 - 1;
-
-    def downHeap(self, parent):
-
-        done = False;
-        while (not done):
-
-            left = 2*parent + 1;
-            right = 2*parent + 2;
-            swap = parent;
-
-            if (left >= len(self)):
-                done = True;
-            else:
-                if (self.isLess(self[left], self[swap])):
-                    swap = left;
-                if (right < len(self)) and (self.isLess(self[right], self[swap])):
-                    swap = right;
-                if (swap != parent):
-                    self[swap], self[parent] = self[parent], self[swap];
-                    parent = swap;
-                else:
-                    done = True;
-class GeneralSolver:
+class DijkstraStepper:
 
     def __init__(self, graph, source, dest):
 
@@ -87,9 +26,8 @@ class GeneralSolver:
         self.finalized = set();
         self.pi = {self.source: (None, 0)};
 
-        self.heap = GeneralHeap(lambda a,b: a == b,
-                                lambda a,b: self.pi[a][1] < self.pi[b][1]);
-        self.heap.insert(self.source);
+        self.heap = [];
+        heapq.heappush(self.heap, (0, self.source));
 
         self.last = None;
         self.current = self.source;
@@ -107,9 +45,11 @@ class GeneralSolver:
                 if (dist != None):
                     if (neighbor not in self.pi):
                         self.pi[neighbor] = (self.current, dist + baseDist);
-                        self.heap.insert(neighbor);
+                        heapq.heappush(self.heap, (dist+baseDist, neighbor))
+
                     elif (dist + baseDist < self.pi[neighbor][1]):
-                        self.heap.decreaseKey(neighbor, lambda : self.updatePi(neighbor, (self.current, dist)));
+                        self.pi[neighbor] = (self.current, dist + baseDist);
+                        heapq.heappush(self.heap, (dist+baseDist, neighbor))
 
         if (self.current == self.dest):
             self.last = self.current;
@@ -119,7 +59,7 @@ class GeneralSolver:
             self.last = self.current;
             self.current = None;
             if (len(self.heap) != 0):
-                smallest = self.heap.extractMin();
+                _, smallest = heapq.heappop(self.heap);
                 if (self.pi[smallest][1] != None):
                     self.current = smallest;
             self.isDone = (self.current == None);
@@ -139,8 +79,8 @@ class Dijkstra:
 
     def solve(graph, source, dest):
 
-        forward = GeneralSolver(graph, source, dest);
-        backward = GeneralSolver(graph, dest, source);
+        forward = DijkstraStepper(graph, source, dest);
+        backward = DijkstraStepper(graph, dest, source);
 
         while (not (forward.isDone or backward.isDone)):
 
@@ -176,6 +116,23 @@ class Dijkstra:
                 routeF = forward.constructPath(w);
                 routeB = backward.constructPath(w);
                 route = routeF[:-1] + list(reversed(routeB));
+
+                return (route, dist);
+
+        return ([], None);
+
+    def oneWaySolve(graph, source, dest):
+
+        forward = DijkstraStepper(graph, source, dest);
+
+        while (not forward.isDone):
+
+            forward.step();
+
+            if (forward.last == dest):
+
+                dist = forward.pi[forward.last][1];
+                route = forward.constructPath(dest)
 
                 return (route, dist);
 

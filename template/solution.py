@@ -40,14 +40,16 @@ def readCustom():
         for line in problemFile.readlines():
             # m = re.match(pattern, line);
             pass;
-    
+
     return problem;
 
 def partOne(problem):
 
     print("Part 1: {:d}".format(0));
 
-def partTwo(problem):
+    return 0;
+
+def partTwo(problem, partOneOutput):
 
     print("Part 2: {:d}".format(0));
 
@@ -57,19 +59,5 @@ if __name__ == "__main__":
     print("Solving Day XX, AoC 2021");
 
     problem = readCustom();
-
-    partOne(problem);
-    partTwo(problem);
-
-
-
-
-
-
-
-
-
-
-
-
-
+    partOneOutput = partOne(problem);
+    partTwo(problem, partOneOutput);

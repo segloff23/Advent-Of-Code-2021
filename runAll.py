@@ -8,7 +8,7 @@ def execute(cmd):
         yield stdout_line ;
     popen.stdout.close();
 
-lastDayCompleted = 14;
+lastDayCompleted = 17;
 
 totalTime = 0;
 for n in range(1, lastDayCompleted + 1):
@@ -16,11 +16,11 @@ for n in range(1, lastDayCompleted + 1):
     os.chdir("./" + folder);
     start = time.time();
     for statement in execute(['python', '-u', 'solution.py']):
-        print(statement, end="");
+        print("\t"+statement, end="");
     end = time.time();
     os.chdir("../");
-    print("Solved in {:06.3f} seconds".format(end-start));
+    print("\tSolved in {:06.3f} seconds".format(end-start));
     print();
     totalTime += (end - start);
 
-print("All Days Solved in {:06.3f} seconds".format(totalTime));
+print("\tAll Days Solved in {:06.3f} seconds".format(totalTime));
