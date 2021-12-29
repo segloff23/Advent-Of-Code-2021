@@ -8,7 +8,7 @@ def execute(cmd):
         yield stdout_line ;
     popen.stdout.close();
 
-lastDayCompleted = 17;
+lastDayCompleted = 25;
 
 totalTime = 0;
 for n in range(1, lastDayCompleted + 1):
@@ -24,3 +24,9 @@ for n in range(1, lastDayCompleted + 1):
     totalTime += (end - start);
 
 print("\tAll Days Solved in {:06.3f} seconds".format(totalTime));
+
+# 18 -> missing part 2
+# 19 -> very long ( 4 minutes)
+# 20 -> somewhat long ( 6 seconds)
+# 23 -> not showing both parts
+# 25 -> a little long (2 seconds)
